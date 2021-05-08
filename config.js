@@ -21,12 +21,12 @@ module.exports = {
     },
   ],
   author: {
-    name: "mager.co",
+    name: "@mager",
     photo: "/mager.jpg",
     bio:
       "Written by mager who lives in Chicago with Tiner & Sam. Software engineer at Uber by day; chess player, playlist maker, beer drinker, and coffee database builder by night.",
     contacts: {
-      email: "",
+      email: "andrew.mager@gmail.com",
       facebook: "",
       telegram: "",
       twitter: "mager",
@@ -38,7 +38,7 @@ module.exports = {
       gitlab: "",
       weibo: "",
       codepen: "",
-      youtube: "",
+      youtube: "magerleagues",
       soundcloud: "andrew",
       medium: "",
     },
