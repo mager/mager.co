@@ -16,7 +16,9 @@ When I started to build [Cafebean](https://cafebean.org) ([an open coffee bean d
 
 ![](/media/2021-04-25-gcloud-postgres/beans-reviews-users.png)
 
-Google actually offers a hosted version of Postgres which is higly reliable, and fully-featured, but it comes at a [higher price tag](https://cloud.google.com/sql/docs/pricing-examples). CloudSQL's cheapest option is $9 a month, whereas the option I'll show you below costs closer to $3 a month.
+Google actually offers a hosted version of Postgres which is higly reliable, and fully-featured, but it comes at a [higher price tag](https://cloud.google.com/sql/docs/pricing-examples).
+
+CloudSQL's cheapest option is `$9` a month, whereas the option I'll show you below costs closer to `$3` dollars a month.
 
 The [GCP Free Tier](https://cloud.google.com/free) comes with 1 free f1-micro Compute instance, so we'll take advantage of that.
 
