@@ -25,7 +25,7 @@ Start by creating a new folder to house your project. For me, I just use my home
 
 Change into your new directory and [make sure you have Go installed](https://golang.org/doc/install). Initialize a new Go module:
 
-```sh
+```shell
 > go mod init github.com/mager/caffy-beans-example
 go: creating new go.mod: module github.com/mager/caffy-beans-example
 ```
@@ -81,7 +81,7 @@ In the above example, we have a simple fx application that doesn't have any prov
 
 Run `go run main.go` and you should see the following output:
 
-```sh
+```shell
 {"level":"info","ts":1609709590.39464,"msg":"providing","type":"fx.Lifecycle","constructor":"go.uber.org/fx.New.func1()"}
 {"level":"info","ts":1609709590.394745,"msg":"providing","type":"fx.Shutdowner","constructor":"go.uber.org/fx.(*App).shutdowner-fm()"}
 {"level":"info","ts":1609709590.394766,"msg":"providing","type":"fx.DotGraph","constructor":"go.uber.org/fx.(*App).dotGraph-fm()"}
@@ -145,7 +145,7 @@ Now `fx.Provide` function collects all the options and passes them to the invoke
 
 If you restart your server (`go run main.go`) again, you'll see some better logging:
 
-```sh
+```shell
 {"level":"info","ts":1609712168.326265,"msg":"providing","type":"*zap.SugaredLogger","constructor":"github.com/mager/caffy-beans-example/logger.ProvideLogger()"}
 {"level":"info","ts":1609712168.326376,"msg":"providing","type":"fx.Lifecycle","constructor":"go.uber.org/fx.New.func1()"}
 {"level":"info","ts":1609712168.326391,"msg":"providing","type":"fx.Shutdowner","constructor":"go.uber.org/fx.(*App).shutdowner-fm()"}
@@ -405,7 +405,7 @@ func Register(
 
 Restart your server and make an `http` request to `http://localhost:8080/beans`:
 
-```sh
+```shell
 curl http://localhost:8080/beans
 ```
 
@@ -434,7 +434,7 @@ Make sure you have `gcloud` installed and you have set up a [billing account](ht
 
 - Run `gcloud projects create <your-project-name>` to create a new project
 
-```sh
+```shell
 > gcloud projects create caffy-beans-example
 Create in progress for [https://cloudresourcemanager.googleapis.com/v1/projects/caffy-beans-example].
 Waiting for [operations/cp.01234567890] to finish...done.
@@ -450,7 +450,7 @@ You'll be prompted to chose a region, remember it for the next step.
 
 - Run `gcloud firestore databases create --region=<your-region>` to create a database
 
-```sh
+```shell
 > gcloud firestore databases create --region=us-central
 Waiting for operation [apps/caffy-beans-example/operations/00000000-0000-0000-0000-000000000000] to complete...done.
 Success! Selected Google Cloud Firestore Native database for caffy-beans-example
@@ -481,7 +481,7 @@ Now let's give our local application access to Firebase.
 
 - Run `gcloud projects add-iam-policy-binding <your-project-name> --member="serviceAccount:local-dev@<your-project-name>.iam.gserviceaccount.com" --role="roles/owner"` to create an IAM policy that links to your service account
 
-```sh
+```shell
 > gcloud projects add-iam-policy-binding caffy-beans-example --member="serviceAccount:local-dev@caffy-beans-example.iam.gserviceaccount.com" --role="roles/owner"
 Updated IAM policy for project [caffy-beans-example].
 bindings:
@@ -501,7 +501,7 @@ version: 1
 
 - Run `gcloud iam service-accounts keys create credentials.json --iam-account=local-dev@<your-project-name>.iam.gserviceaccount.com` to generate a key for our application to authenticate
 
-```sh
+```shell
 > gcloud iam service-accounts keys create credentials.json --iam-account=local-dev@caffy-beans-example.iam.gserviceaccount.com
 created key [123456789] of type [json] as [credentials.json] for [local-dev@caffy-beans-example.iam.gserviceaccount.com]
 ```
@@ -655,7 +655,7 @@ type Bean struct {
 
 If you make a `GET` request to http://localhost:8080/beans you should see the data from Firestore:
 
-```sh
+```shell
 curl http://localhost:8080/beans
 ```
 
@@ -762,7 +762,7 @@ Let's review what's in this router handler:
 
 Restart the server (`go run main.go`) and try adding a bean with a `POST` request to http://localhost:8080/beans.
 
-```sh
+```shell
 curl --header "Content-Type: application/json" \
   --request POST \
   --data '{"name":"Brazil","shade":"light","flavors":["coconut","hard candy"],"roaster":"Ipsento"}' \
@@ -795,7 +795,7 @@ The data looks like this:
 
 Now let's retry the request:
 
-```sh
+```shell
 curl --header "Content-Type: application/json" \
   --request POST \
   --data '{"name":"Brazil","shade":"light","flavors":["coconut","hard candy"],"roaster":"Ipsento"}' \
@@ -946,7 +946,7 @@ instance_class: F1
 
 - Run `gcloud app deploy` to deploy the app to App Engine:
 
-```sh
+```shell
 > gcloud app deploy
 Services to deploy:
 
@@ -962,7 +962,7 @@ Do you want to continue (Y/n)?  Y
 
 Beginning deployment of service [default]...
 ╔════════════════════════════════════════════════════════════╗
-╠═ Uploading 12 files to Google Cloud Storage                ═╣
+╠═ Uploading 12 files to Google Cloud Storage               ═╣
 ╚════════════════════════════════════════════════════════════╝
 File upload done.
 Deployed service [default] to [https://caffy-beans-example.uc.r.appspot.com]

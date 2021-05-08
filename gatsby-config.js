@@ -103,6 +103,9 @@ module.exports = {
       resolve: "gatsby-transformer-remark",
       options: {
         plugins: [
+          {
+            resolve: `gatsby-remark-highlight-code`,
+          },
           "gatsby-remark-relative-images",
           {
             resolve: "gatsby-remark-katex",

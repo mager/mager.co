@@ -44,7 +44,7 @@ Finally, in the Firewall > Networking section, add a network tag:
 
 Click Create and you should have an instance running in a few minutes.
 
-```sh
+```shell
 ❯ gcloud beta compute instances list
 NAME           ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP   STATUS
 cafebean-data  us-central1-a  f1-micro                   10.128.0.8   35.225.71.58  RUNNING
@@ -54,25 +54,25 @@ cafebean-data  us-central1-a  f1-micro                   10.128.0.8   35.225.71.
 
 Let's connect to the instance with ssh:
 
-```sh
-gcloud beta compute ssh "cafebean-data" \
+```shell
+> gcloud beta compute ssh "cafebean-data" \
     --zone "us-central1-a" \
     --project "cafebean"
 ```
 
 Let's do a software update and install the latest Postgres libraries:
 
-```sh
-sudo apt update
-sudo apt -y install postgresql-12 postgresql-client-12
+```shell
+> sudo apt update
+> sudo apt -y install postgresql-12 postgresql-client-12
 ```
 
 Check to make sure it's running:
 
-```sh
-systemctl status postgresql.service
-systemctl status postgresql@12-main.service
-systemctl is-enabled postgresql
+```shell
+> systemctl status postgresql.service
+> systemctl status postgresql@12-main.service
+> systemctl is-enabled postgresql
 ```
 
 You should see something like this:
@@ -81,14 +81,14 @@ You should see something like this:
 
 Fire up `psql` with user `postgres`:
 
-```sh
-sudo -u postgres psql postgres
+```shell
+> sudo -u postgres psql postgres
 ```
 
 Set a password:
 
-```sh
-\password postgres
+```shell
+postgres=# \password postgres
 ```
 
 And let's add some data. First we'll create two tables: `users` and `reviews` (see diagram above):
@@ -128,8 +128,8 @@ As it stands now, the instance is completely locked down from external traffic. 
 
 Open the `pg_hba.conf` [config file](https://www.postgresql.org/docs/9.1/auth-pg-hba-conf.html) (HBA stands for host-based authentication):
 
-```sh
-sudo vi /etc/postgresql/12/main/pg_hba.conf
+```shell
+> sudo vi /etc/postgresql/12/main/pg_hba.conf
 ```
 
 Head to the bottom of the page and add you IP address (you can find your IP at [http://httpbin.org/ip](http://httpbin.org/ip)).
@@ -140,8 +140,8 @@ Don't forget the `/32` subnet suffix.
 
 Save the file and exit the code editor. We have to update one more file, `postgresql.conf`, and tell it to open up traffic to all IP addresses. Since we updated `pg_hba.conf` in the previous step, it should only allow traffic to our IP.
 
-```sh
-sudo vi /etc/postgresql/12/main/postgresql.conf
+```shell
+> sudo vi /etc/postgresql/12/main/postgresql.conf
 ```
 
 Look for the `listen_addresses` rule (around line 59) and set it to `'*'`:
@@ -150,14 +150,14 @@ Look for the `listen_addresses` rule (around line 59) and set it to `'*'`:
 
 Save and close and restart Postgres:
 
-```sh
-sudo service postgresql restart
+```shell
+> sudo service postgresql restart
 ```
 
 Next, we'll create a firewall rule in GCP (do this from your local machine, not the ssh session):
 
-```sh
-gcloud beta compute firewall-rules create cafebean-testing \
+```shell
+> gcloud beta compute firewall-rules create cafebean-testing \
     --allow=tcp:5432 \
     --direction=INGRESS \
     --source-ranges=73.55.142.199/32 \
@@ -168,15 +168,15 @@ Verify that it was created with the command `gcloud beta compute firewall-rules 
 
 Now that your firewall rule is created, you should be able to connect to the instance with psql locally (you can install it with `brew install postgresql`). Find the external IP address of your instance:
 
-```sh
-gcloud compute instances describe cafebean-data \
+```shell
+> gcloud beta compute instances describe cafebean-data \
     --format='get(networkInterfaces[0].accessConfigs[0].natIP)'
 ```
 
 And then connect (you will be promted for a password):
 
-```sh
-psql -h 35.225.71.58 -p 5432 -U postgres -d postgres -W
+```shell
+> psql -h 35.225.71.58 -p 5432 -U postgres -d postgres -W
 ```
 
 If all goes well you should see the the postgres prompt. Feel free to run a query to test the data:
@@ -189,30 +189,30 @@ The Cafebean API is hosted on Cloud Run, and by default, the service is hosted o
 
 Here are the command I used to enable these network rules:
 
-```sh
+```shell
 # Create a subnetwork
-gcloud beta compute networks subnets create cafebean-subnet \
+> gcloud beta compute networks subnets create cafebean-subnet \
     --range=10.124.0.0/28 \
     --network=default \
     --region=us-central1
 
 # Create a VPC connector
-gcloud beta compute networks vpc-access connectors create cafebean-connector \
+> gcloud beta compute networks vpc-access connectors create cafebean-connector \
     --region=us-central1 \
     --subnet-project=cafebean \
     --subnet=cafebean-subnet
 
 # Create a router
-gcloud beta compute routers create cafebean-router \
+> gcloud beta compute routers create cafebean-router \
     --network=default \
     --region=us-central1
 
 # Reserve a static IP address
-gcloud beta compute addresses create cafebean-api \
+> gcloud beta compute addresses create cafebean-api \
     --region=us-central1
 
 # Create a NAT gateway
-gcloud beta compute routers nats create cafebean \
+> gcloud beta compute routers nats create cafebean \
     --router=cafebean-router \
     --region=us-central1 \
     --nat-custom-subnet-ip-ranges=cafebean-subnet \
@@ -221,8 +221,8 @@ gcloud beta compute routers nats create cafebean \
 
 Now when I deploy a new version of the API, I add two new flags to the `gcloud run deploy` command:
 
-```sh
-gcloud run deploy --image gcr.io/cafebean/cafebean-api \
+```shell
+> gcloud beta run deploy --image gcr.io/cafebean/cafebean-api \
     --platform managed \
     --vpc-connector=cafebean-connector \
     --vpc-egress=all
@@ -230,7 +230,7 @@ gcloud run deploy --image gcr.io/cafebean/cafebean-api \
 
 Once this is deployed, we can be sure that all API traffic is being served from a static IP.
 
-```sh
+```shell
 ❯ gcloud beta compute addresses list
 NAME          ADDRESS/RANGE  TYPE      PURPOSE  NETWORK  REGION       SUBNET  STATUS
 cafebean-api  34.67.158.60   EXTERNAL                    us-central1          IN_USE
@@ -242,8 +242,8 @@ Now we just need to update our Postgres `pg_hba.conf` file. `ssh` back into the 
 
 Restart your postgres instance:
 
-```sh
-sudo service postgresql restart
+```shell
+> sudo service postgresql restart
 ```
 
 That's it. Your Cloud Run app can now talk to the Postgres server. If you want to see it in action, make a request to the API to [fetch all reviews](https://api.cafebean.org/reviews), or check out the [bean page for Ipsento Cascade Espresso](https://cafebean.org/beans/ipsento-cascade-espresso), which I've been using for test reviews.
