@@ -196,11 +196,6 @@ exports[`PageTemplate renders correctly 1`] = `
           </li>
         </ul>
       </div>
-      <div
-        className="copyright"
-      >
-        Test copyright
-      </div>
     </div>
   </div>
   <div

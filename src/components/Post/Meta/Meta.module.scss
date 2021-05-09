@@ -1,9 +1,11 @@
-@import '../../../assets/scss/variables';
-@import '../../../assets/scss/mixins';
+@import "../../../assets/scss/variables";
+@import "../../../assets/scss/mixins";
 
 .meta {
-  &__date {
-    font-style: italic;
-  }
-
+  max-width: $layout-post-width;
+  margin-left: auto;
+  margin-right: auto;
+  font-style: italic;
+  @include line-height(1.65);
+  @include margin-top(1);
 }

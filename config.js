@@ -5,7 +5,6 @@ module.exports = {
   pathPrefix: "/",
   title: "mager.co",
   subtitle: `A web log about cooking, writing code, and learning.`,
-  copyright: "© All rights reserved.",
   disqusShortname: "",
   postsPerPage: 8,
   googleAnalyticsId: "UA-37995927-1",

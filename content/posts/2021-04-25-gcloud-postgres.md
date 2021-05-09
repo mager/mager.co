@@ -185,7 +185,7 @@ If all goes well you should see the the postgres prompt. Feel free to run a quer
 
 ![](/media/2021-04-25-gcloud-postgres/postgres-local.png)
 
-# Talking to the instance from your Cloud Run app
+## Talking to the instance from your Cloud Run app
 
 The Cafebean API is hosted on Cloud Run, and by default, the service is hosted on a dynamic IP. This doesn't work well with the security of our Postgres instance becasue it needs to know which IPs are allowed to access it. Luckily, it's pretty easy to route all of your Cloud Run requests through a [static outbound IP](https://cloud.google.com/run/docs/configuring/static-outbound-ip).
 
