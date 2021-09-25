@@ -286,7 +286,7 @@ We append these lifecycle hooks and now the server starts listening `OnStart` an
 Let's add a simple route handler for fetching a list of beans. Create a folder called `route_handler` and a `route_handler.go`:
 
 ```go
-package router_handler
+package route_handler
 
 import (
 	"encoding/json"
