@@ -19,9 +19,6 @@ const Sidebar = ({ isIndex }: Props) => {
         <Author author={author} isIndex={isIndex} />
         <Menu menu={menu} />
         <Contacts contacts={author.contacts} />
-        <h4>
-          <a href={"/resume.pdf"}>Resume</a>
-        </h4>
       </div>
     </div>
   );

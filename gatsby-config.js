@@ -102,9 +102,6 @@ module.exports = {
       resolve: "gatsby-transformer-remark",
       options: {
         plugins: [
-          {
-            resolve: `gatsby-remark-highlight-code`,
-          },
           "gatsby-remark-relative-images",
           {
             resolve: "gatsby-remark-katex",
@@ -212,7 +209,8 @@ module.exports = {
             },
             {
               // Add runtime caching of various other page resources
-              urlPattern: /^https?:.*\.(png|jpg|jpeg|webp|svg|gif|tiff|js|woff|woff2|json|css)$/,
+              urlPattern:
+                /^https?:.*\.(png|jpg|jpeg|webp|svg|gif|tiff|js|woff|woff2|json|css)$/,
               handler: "StaleWhileRevalidate",
             },
             {
